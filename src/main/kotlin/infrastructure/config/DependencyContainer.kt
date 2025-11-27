@@ -4,7 +4,7 @@ import com.ilya.application.service.AlbumService
 import com.ilya.application.service.ArtistService
 import com.ilya.application.service.SongService
 import com.ilya.data.repository.*
-git
+
 object DependencyContainer {
 
     private val artistRepository: ArtistRepository = ArtistRepositoryImpl()

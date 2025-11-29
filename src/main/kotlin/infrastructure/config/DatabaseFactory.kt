@@ -1,8 +1,8 @@
 package com.ilya.infrastructure.config
 
-import com.ilya.data.datasource.Albums
-import com.ilya.data.datasource.Artists
-import com.ilya.data.datasource.Songs
+import com.ilya.data.datasource.AlbumTable
+import com.ilya.data.datasource.ArtistTable
+import com.ilya.data.datasource.SongTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.config.*
@@ -11,7 +11,6 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-
 
 object DatabaseFactory {
     fun init(config: ApplicationConfig) {
@@ -22,7 +21,7 @@ object DatabaseFactory {
         Database.connect(createHikariDataSource(jdbcUrl, username, password))
 
         transaction {
-            SchemaUtils.create(Artists, Albums, Songs)
+            SchemaUtils.create(ArtistTable, AlbumTable, SongTable)
         }
     }
 

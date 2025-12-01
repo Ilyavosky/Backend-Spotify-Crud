@@ -4,9 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Song(
-    val id: Int = 0,
+    val id: String = "",
     val title: String,
-    val durationSeconds: Int,
-    val albumId: Int,
-    val trackNumber: Int
+    val duration: Int,
+    val albumId: String
 )

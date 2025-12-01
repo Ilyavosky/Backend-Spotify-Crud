@@ -4,8 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Artist(
-    val id: Int = 0,
+    val id: String = "",
     val name: String,
-    val biography: String,
-    val imageUrl: String
+    val genre: String = ""
 )

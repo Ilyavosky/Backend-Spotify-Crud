@@ -1,13 +1,13 @@
 package com.ilya.data.datasource
 
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.ReferenceOption
 
-object AlbumTable : Table("albums") {
-    val id = integer("id").autoIncrement()
-    val name = varchar("name", 255)
+object AlbumTable : Table("albumes") {
+    val id = uuid("id").autoGenerate()
+    val title = varchar("title", 150)
     val releaseYear = integer("release_year")
-    val coverUrl = varchar("cover_url", 500)
-    val artistId = integer("artist_id").references(ArtistTable.id)
+    val artistId = uuid("artist_id").references(ArtistTable.id, onDelete = ReferenceOption.CASCADE)
 
     override val primaryKey = PrimaryKey(id)
 }

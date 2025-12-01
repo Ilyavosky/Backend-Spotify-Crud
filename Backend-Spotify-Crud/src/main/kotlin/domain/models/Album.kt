@@ -4,9 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Album(
-    val id: Int = 0,
-    val name: String,
+    val id: String = "",
+    val title: String,
     val releaseYear: Int,
-    val coverUrl: String,
-    val artistId: Int
+    val artistId: String
 )

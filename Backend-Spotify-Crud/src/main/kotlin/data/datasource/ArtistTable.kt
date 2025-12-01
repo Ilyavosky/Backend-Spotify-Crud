@@ -2,11 +2,10 @@ package com.ilya.data.datasource
 
 import org.jetbrains.exposed.sql.Table
 
-object ArtistTable : Table("artists") {
-    val id = integer("id").autoIncrement()
-    val name = varchar("name", 255)
-    val biography = text("biography")
-    val imageUrl = varchar("image_url", 500)
+object ArtistTable : Table("artistas") {
+    val id = uuid("id").autoGenerate()
+    val name = varchar("name", 100)
+    val genre = varchar("genre", 50).nullable()
 
     override val primaryKey = PrimaryKey(id)
 }

@@ -4,8 +4,8 @@ import com.ilya.domain.models.Artist
 
 interface ArtistRepository {
     suspend fun create(artist: Artist): Artist?
-    suspend fun findById(id: Int): Artist?
+    suspend fun findById(id: String): Artist?
     suspend fun findAll(): List<Artist>
-    suspend fun update(id: Int, artist: Artist): Boolean
-    suspend fun delete(id: Int): Boolean
+    suspend fun update(id: String, artist: Artist): Boolean
+    suspend fun delete(id: String): Boolean
 }

@@ -10,7 +10,6 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-
 fun Application.configureRouting(
     artistService: ArtistService,
     albumService: AlbumService,
@@ -21,8 +20,10 @@ fun Application.configureRouting(
             call.respondText("Spotify Backend API - Running!")
         }
 
-        artistRoutes(artistService, albumService)
-        albumRoutes(albumService, songService)
-        songRoutes(songService)
+        route("/api") {
+            artistRoutes(artistService, albumService)
+            albumRoutes(albumService, songService)
+            songRoutes(songService)
+        }
     }
 }

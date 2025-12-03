@@ -8,10 +8,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-
 fun Route.artistRoutes(artistService: ArtistService, albumService: AlbumService) {
 
-    route("/artists") {
+    route("/artistas") {
 
         get {
             val artists = artistService.getAllArtists()
@@ -19,7 +18,7 @@ fun Route.artistRoutes(artistService: ArtistService, albumService: AlbumService)
         }
 
         get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
+            val id = call.parameters["id"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val artist = artistService.getArtistById(id)
@@ -37,7 +36,7 @@ fun Route.artistRoutes(artistService: ArtistService, albumService: AlbumService)
         }
 
         put("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
+            val id = call.parameters["id"]
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val artist = call.receive<Artist>()
@@ -51,7 +50,7 @@ fun Route.artistRoutes(artistService: ArtistService, albumService: AlbumService)
         }
 
         delete("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
+            val id = call.parameters["id"]
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val deleted = artistService.deleteArtist(id)
@@ -63,8 +62,8 @@ fun Route.artistRoutes(artistService: ArtistService, albumService: AlbumService)
             }
         }
 
-        get("/{id}/albums") {
-            val id = call.parameters["id"]?.toIntOrNull()
+        get("/{id}/albumes") {
+            val id = call.parameters["id"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val albums = albumService.getAlbumsByArtistId(id)

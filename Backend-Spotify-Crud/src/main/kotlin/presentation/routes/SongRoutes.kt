@@ -7,10 +7,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-
 fun Route.songRoutes(songService: SongService) {
 
-    route("/songs") {
+    route("/tracks") {
 
         get {
             val songs = songService.getAllSongs()
@@ -18,7 +17,7 @@ fun Route.songRoutes(songService: SongService) {
         }
 
         get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
+            val id = call.parameters["id"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val song = songService.getSongById(id)
@@ -36,7 +35,7 @@ fun Route.songRoutes(songService: SongService) {
         }
 
         put("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
+            val id = call.parameters["id"]
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val song = call.receive<Song>()
@@ -50,7 +49,7 @@ fun Route.songRoutes(songService: SongService) {
         }
 
         delete("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
+            val id = call.parameters["id"]
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
             val deleted = songService.deleteSong(id)

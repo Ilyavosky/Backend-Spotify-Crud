@@ -5,22 +5,22 @@ import com.ilya.domain.models.Album
 import com.ilya.infrastructure.config.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import java.util.UUID
 
 class AlbumRepositoryImpl : AlbumRepository {
 
     override suspend fun create(album: Album): Album? = dbQuery {
         val insertStatement = AlbumTable.insert {
-            it[name] = album.name
+            it[title] = album.title
             it[releaseYear] = album.releaseYear
-            it[coverUrl] = album.coverUrl
-            it[artistId] = album.artistId
+            it[artistId] = UUID.fromString(album.artistId)
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::toAlbum)
     }
 
-    override suspend fun findById(id: Int): Album? = dbQuery {
+    override suspend fun findById(id: String): Album? = dbQuery {
         AlbumTable.selectAll()
-            .where { AlbumTable.id eq id }
+            .where { AlbumTable.id eq UUID.fromString(id) }
             .map(::toAlbum)
             .singleOrNull()
     }
@@ -30,30 +30,28 @@ class AlbumRepositoryImpl : AlbumRepository {
             .map(::toAlbum)
     }
 
-    override suspend fun findByArtistId(artistId: Int): List<Album> = dbQuery {
+    override suspend fun findByArtistId(artistId: String): List<Album> = dbQuery {
         AlbumTable.selectAll()
-            .where { AlbumTable.artistId eq artistId }
+            .where { AlbumTable.artistId eq UUID.fromString(artistId) }
             .map(::toAlbum)
     }
 
-    override suspend fun update(id: Int, album: Album): Boolean = dbQuery {
-        AlbumTable.update({ AlbumTable.id eq id }) {
-            it[name] = album.name
+    override suspend fun update(id: String, album: Album): Boolean = dbQuery {
+        AlbumTable.update({ AlbumTable.id eq UUID.fromString(id) }) {
+            it[title] = album.title
             it[releaseYear] = album.releaseYear
-            it[coverUrl] = album.coverUrl
-            it[artistId] = album.artistId
+            it[artistId] = UUID.fromString(album.artistId)
         } > 0
     }
 
-    override suspend fun delete(id: Int): Boolean = dbQuery {
-        AlbumTable.deleteWhere { AlbumTable.id eq id } > 0
+    override suspend fun delete(id: String): Boolean = dbQuery {
+        AlbumTable.deleteWhere { AlbumTable.id eq UUID.fromString(id) } > 0
     }
 
     private fun toAlbum(row: ResultRow): Album = Album(
-        id = row[AlbumTable.id],
-        name = row[AlbumTable.name],
+        id = row[AlbumTable.id].toString(),
+        title = row[AlbumTable.title],
         releaseYear = row[AlbumTable.releaseYear],
-        coverUrl = row[AlbumTable.coverUrl],
-        artistId = row[AlbumTable.artistId]
+        artistId = row[AlbumTable.artistId].toString()
     )
 }
